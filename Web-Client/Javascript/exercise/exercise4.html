@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>array2</title>
+</head>
+<body>
+	<script>
+		var ary = new Array(10);
+		for (var i = 0; i < ary.length; i++)
+			ary[i] = Math.floor(Math.random() * 50) + 1;
+		document.write("<h2>정렬 전 : " + ary + "</h2><br>");
+		ary.sort(function(a, b) {return a - b});
+		document.write("<h2>정렬 후: " + ary + "</h2><br>");
+	</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!--인라인 이벤트-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+body {
+	text-align: center;
+	border: 1px solid blue;
+	padding: 50px;
+}
+
+button {
+	background-color: white;
+	border: 1px solid blue;
+	border-radius: 10px;
+}
+</style>
+</head>
+<body>
+	<div id="box">
+		<h1>구구단</h1>
+		<button value="1단" onclick="gugudan(1)">1단</button> 
+		<button value="2단" onclick="gugudan(2)">2단</button> 
+		<button value="3단" onclick="gugudan(3)">3단</button> 
+		<button value="4단" onclick="gugudan(4)">4단</button> 
+		<button value="5단" onclick="gugudan(5)">5단</button> 
+		<button value="6단" onclick="gugudan(6)">6단</button> 
+		<button value="7단" onclick="gugudan(7)">7단</button> 
+		<button value="8단" onclick="gugudan(8)">8단</button> 
+		<button value="9단" onclick="gugudan(9)">9단</button> 
+	<p id="demo"></p>
+	</div>
+
+</body>
+<script>
+	function gugudan(v) {
+		var dan = parseInt(v);
+		var text = "<h2>" + v + "단<br>";
+		for (var i = 1; i <= 9; i++) {
+			text += v + "x" + i + "=" + v * i + "<br>";
+		}
+		document.getElementById("demo").innerHTML = text;
+	}
+</script>
+</html>
