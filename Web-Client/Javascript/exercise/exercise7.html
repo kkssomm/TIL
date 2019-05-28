@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script>
+		function printH1(content) {
+			document.write("<h1>" + content + "</h1>");
+		}
+		function printH4(content) {
+			document.write("<h4>" + content + "</h4>");
+		}
+
+		function apply(p1, p2) {
+			if (!Array.isArray(p1) || typeof p2 != "function") {
+				console.log("아규먼트 오류");
+				return false;
+			} else {
+				p2(p1);
+				return true;
+			}
+		}
+
+		var ary = [];
+		var data;
+		var i = 0;
+		var result;
+		while(true){
+			data = window.prompt();
+			if(data == null) break;
+			ary.push(data);
+		}
+		var d = new Date();
+		var n = d.getDay();
+		switch (n) {
+		case 1:
+		case 3:
+		case 5:
+			result = apply(ary, printH1);
+			break;
+		case 2:
+		case 4:
+			result = apply(ary, printH4);
+			break;
+		case 7:
+			result = apply("ㅋㅋ", printH1);
+			break;
+		case 6:
+			result = apply(ary);
+			break;
+		}
+
+		result == true ? window.alert("성공") : window.alert("실패");
+	</script>
+</body>
+</html>

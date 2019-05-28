@@ -288,13 +288,15 @@ def index():
         create_at = models.DateTimeField(auto_now_add=True)
         updated_at = models.DateTimeField(auto_now=True)
         
+    ```
+
    def __str__(self):
             return f'{self.id}번 글 - {self.title} : {self.content}'
     ```
     
-
+  
   - `admin.py`
-
+  
     ```python
     from {앱 이름}.models import {테이블 이름}
     admin.site.register({테이블 이름})
@@ -588,7 +590,7 @@ $ pip install pilkit
       	if request.method == 'POST':
       		comment = comment_form.save(commit=False)
       		comment.article = article
-      		comment.save()
+      		coment.save()
       		return redirect('articles:detail',article.id)
       else:
            return redirect('articles:detail',article_id)

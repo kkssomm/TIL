@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canvas API</title>
+<script>
+	function initiate() {
+		var elem = document.getElementById('canvas');
+		canvas = elem.getContext('2d');
+
+		canvas.beginPath();
+		canvas.arc(100, 100, 100, 0, Math.PI * 2, false);
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+
+		canvas.beginPath();
+		canvas.arc(75, 100, 30, 0, Math.PI, false);
+		canvas.fillStyle = "brown";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(125, 100, 30, 0, Math.PI, false);
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(75, 50, 10, 0, Math.PI * 2, true);
+		canvas.fillStyle = "black";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(125, 50, 10, 0, Math.PI * 2, true);
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.moveTo(75, 175);
+		canvas.lineTo(100, 200);
+		canvas.lineTo(75, 225);
+		canvas.closePath();
+		canvas.fillStyle = "red";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.moveTo(100, 200);
+		canvas.lineTo(125, 175);
+		canvas.lineTo(125, 225);
+		canvas.closePath();
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(400, 100, 100, 0, Math.PI * 2, false);
+		canvas.strokeStyle = "lightblue";
+		canvas.stroke();
+		canvas.fillStyle = "lightblue";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(400, 125, 75, 0, Math.PI * 2, false);
+		canvas.strokeStyle = "white";
+		canvas.stroke();
+		canvas.fillStyle = "white";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(375, 50, 20, 0, Math.PI * 2, true);
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.arc(425, 50, 20, 0, Math.PI * 2, true);
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+		canvas.fill();
+		
+		canvas.beginPath();
+		canvas.arc(375, 50, 10, 0, Math.PI, true);
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+
+		canvas.beginPath();
+		canvas.arc(425, 50, 10, 0, Math.PI, true);
+		canvas.stroke();
+
+		canvas.beginPath();
+		canvas.arc(400, 100, 10, 0, Math.PI * 2, false);
+		canvas.strokeStyle = "red";
+		canvas.stroke();
+		canvas.fillStyle = "red";
+		canvas.fill();
+
+		canvas.beginPath();
+		canvas.moveTo(400, 125);
+		canvas.lineTo(400, 150);
+		canvas.closePath();
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+
+		canvas.beginPath();
+		canvas.moveTo(375, 150);
+		canvas.quadraticCurveTo(400, 200, 425, 150);
+		canvas.stroke();
+		canvas.fillStyle = "orange";
+		canvas.fill();
+		
+		canvas.beginPath();
+		canvas.moveTo(460, 120);
+		canvas.lineTo(480, 110);
+		canvas.closePath();
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+		canvas.beginPath();
+		canvas.moveTo(460, 130);
+		canvas.lineTo(480, 140);
+		canvas.closePath();
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+		canvas.beginPath();
+		canvas.moveTo(340, 120);
+		canvas.lineTo(320, 110);
+		canvas.closePath();
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+		canvas.beginPath();
+		canvas.moveTo(340, 130);
+		canvas.lineTo(320, 140);
+		canvas.closePath();
+		canvas.strokeStyle = "black";
+		canvas.stroke();
+	}
+	window.addEventListener("load", initiate, false);
+</script>
+</head>
+<body>
+	<section id="canvasbox">
+		<canvas id="canvas" width="500" height="300"
+			style="border: 1px solid white">
+      Your browser doesn't support the canvas element
+    </canvas>
+	</section>
+</body>
+</html>
+
