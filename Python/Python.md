@@ -1,4 +1,8 @@
-## Python 기초
+# PYTHON, DJANGO
+
+
+
+## # Python 기초
 
 ### 가상 환경 구축 & Jupyter Notebook 설치
 
@@ -29,27 +33,35 @@ $ jupyter notebook
 
 ### 반복문
 
-- if & elif & else
+- if
 
-``` python
-ss
-```
+  ```
+  ss
+  ```
 
 - for
+
+  ```
+  ss
+  ```
 
 
 
 ### VSCODE 플러그인 설치
 
-- beautify : 자동으로 인덴테이션 (ctrl + shift + p)
+**(`ctrl` + `shift` + `p`) **
 
-- live server - 로컬호스트로 즉시 리로드
+- beautify : 자동으로 인덴테이션 
+- live server : 로컬호스트로 즉시 리로드
+- bootstrap 
 
-- bootstrap
 
 
 
-## Flask
+
+## # Flask
+
+### 설치 및 기본 구현
 
 - Flask 설치
 
@@ -90,8 +102,6 @@ def index():
 
 
 
-
-
 ### 텔레그램 연동
 
 - TOKEN
@@ -123,7 +133,7 @@ def index():
 
 - ngrok  
 
-  **Secure tunnels to localhost** :방화벽 넘어서 외부에서 로컬에 접속 가능하게 하는 터널 프로그램 
+  **Secure tunnels to localhost** :방화벽을 넘어 외부에서 로컬에 접속 가능하게 하는 터널 프로그램 
 
   - ngrok (설치).[ https://dashboard.ngrok.com/get-started ]
 
@@ -147,9 +157,9 @@ def index():
 
 
 
-## Django
+## # Django
 
-(참조 페이지).[ https://docs.djangoproject.com/ko/2.2/ ]
+(Doc).[ https://docs.djangoproject.com/ko/2.2/ ]
 
 
 
@@ -186,7 +196,7 @@ def index():
   ]
   ```
 
-  - etc
+  - 시간/ 언어 설정
 
     ```
     LANGUAGE_CODE = 'ko-kr'
@@ -220,6 +230,36 @@ def index():
 
 ### GET/POST
 
+- 용도 
+  - GET : 검색 폼
+  - POST : 서버 시스템의 상태를 바꾸는 요청 (ex. 데이터베이스의 내용)
+
+- Restful 방식
+
+  ```python
+  def create(request):
+      if request.method == 'POST':
+          title = request.POST.get('title')
+          content = request.POST.get('content')
+          image = request.FILES.get('image')
+          article = Article(title=title, content=content, image=image)
+          article.save()
+          return redirect('articles:detail',article.pk)
+      else : 
+          return render(request, 'articles/new.html')
+  ```
+
+  - GET : 작성 페이지를 랜더링 함
+  - POST : 요청 내용으로 데이터베이스 변경
+
+- crsf_token
+
+  ```
+  {% crsf_token %}
+  ```
+
+  
+
 
 
 ### 데이터베이스
@@ -237,12 +277,6 @@ def index():
   }
   ```
 
-- 관리자 생성
-
-  ```bash
-  $ python manage.py createsuperuser
-  ```
-
 - Model 코딩
 
   - `models.py`
@@ -253,26 +287,27 @@ def index():
         content = models.TextField()
         create_at = models.DateTimeField(auto_now_add=True)
         updated_at = models.DateTimeField(auto_now=True)
+        
+   def __str__(self):
+            return f'{self.id}번 글 - {self.title} : {self.content}'
     ```
-
     
 
-  ```bash
-  notepad models.py # 테이블 정의\
-  python manage.py makemigrations # 변경 필요 사항 추출
-  python manage.py migrate # 변경 사항 반영
-  python manage.py runserver # 웹서버 기동
-  ```
+  - `admin.py`
 
-- admin 사이트에 테이블 반영
+    ```python
+    from {앱 이름}.models import {테이블 이름}
+    admin.site.register({테이블 이름})
+    ```
 
-  `admin.py`
+  - 데이터 베이스 반영
 
-  ```bash
-  from {앱 이름}.models import {테이블 이름}
-  
-  admin.site.register({테이블 이름})
-  ```
+    ```bash
+    $ python manage.py createsuperuser # 관리자 생성
+    $ python manage.py makemigrations # 변경 필요 사항 추출
+    $ python manage.py migrate # 변경 사항 반영
+    $ python manage.py runserver # 웹서버 기동
+    ```
 
 - 함수 작성
 
@@ -292,73 +327,303 @@ def index():
         # pub_date 속성을 역순으로 정렬하여 최근 5개의 Question객체를 가져옴
         context = {'latest_question_list':latest_question_list}
         return render(request, 'polls/index.html',context)
-    
-def __str__(self):
-        return f'{self.id}번 글 - {self.title} : {self.content}'
-    
     ```
-    
+
+
+
+**파이썬 쉘**
+
+```bash
+$ python manage.py shell
+
+# 생성
+>>> from articles.models import Article
+>>> article = Article()
+>>> article.title = 'first'
+>>> article.content = 'django'
+>>> article= Article(title='second',content='edition')
+>>> article.save()
+>>> Article.objects.create(title=title,content=content)
+
+#조회
+>>> article
+<Article: Article object (2)>
+>>> Article.objects.all()
+<Article: Article object (2)>
+
+# __str__
+>>> Article.objects.all()
+<QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, 
+
+# filter로 조회
+>>> Article.objects.filter(title='first')
+<QuerySet [<Article: 1번 글 - first : django>, <Article: 5번 글 - first : hahaha>]>
+
+# get으로 조회
+>>> Article.objects.get(pk=1)
+<Article: 1번 글 - first : django>
+
+>>> article=Article.ojbects.get(pk=4)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Article' has no attribute 'ojbects' #오류
+
+# 수정
+>>> article=Article.objects.get(pk=4)
+>>> article.title='4th'
+>>> article.save()
+>>> Article.objects.all()
+<QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, <Article: 3번 글 - third : eye>, <Article: 4번
+글 - 4th : kind>, <Article: 5번 글 - first : hahaha>]>
+```
+
+***extensions 적용** : import문 생략 가능
+
+```
+(bash)
+$ pip install django-extensions
+
+(setting.py) 
+INSTALLED_APPS = [
+    'django_extensions',
+]
+
+(bash)
+$ python manage.py shell_plus
+```
+
+
+
+### File
+
+```bash
+$ pip install Pillow
+
+$ pip install django-imagekit
+
+$ pip install pilkit
+```
+
+
+
+
+
+### Form 
+
+**장고의 폼 처리 기능**
+
+​	a. 폼 생성에 필요한 데이터를 폼 클래스로 구조화
+
+​	b. 폼 클래스의 데이터를 랜더링하여 HTML 폼 만들기
+
+​	c. 사용자로부터 제출된 폼과 데이터를 수신하고 처리
+
+
+
+- 폼 클래스 정의
+
+  : 폼을 클래스로 정의해 간편하게 폼을 생성함
+
+  - `form.py`
+
+  ```python
+  from django import forms
+  from .models import Article
   
-- 파이썬 쉘
+  class ArticleForm(forms.ModelForm):
+      title = forms.CharField(
+          max_length=10,
+          label = '제목',
+          widget = forms.TextInput(
+              attrs = {
+                  'class': 'my-title',
+                  'placeholder': 'Enter the title',
+              }
+          )
+          )
+      content = forms.CharField(
+          label = '내용',
+          widget=forms.Textarea(
+               attrs={
+                   'class': 'my-content',
+                   'placeholder': 'Enter the content',
+                   'rows': 5,
+                   'cols': 50,
+               }
+          )
+          )
+      
+  class Meta:
+          model = Article
+          fields = ['title', 'content',]
+  ```
+
+  
+
+- 뷰에서 폼 클래스 처리
+
+  : 폼을 보여주거나 처리함
+
+  - `view.py` -> GET : 빈 폼 생성 / POST : 폼 객체를 생성해 요청된 데이터로 채움
+
+    ```python
+    def create(request):
+        if request.method == 'POST':
+            form = ArticleForm(request.POST)
+            if form.is_valid(): 
+                article = form.save()
+                return redirect('articles:index')
+        else:
+            form = ArticleForm()
+            return render(request, 'articles/form.html', {'form':form})
+    ```
+
+    -  `form=폼객체(request.POST)` : 요청에포함된 데이터로 채움
+    - `form.is_valid()` form이 유효한지 검사
+    - `form.cleaned_data.get('속성')` :  데이터를 요청받은대로 처리
+
+
+
+- 폼 클래스를 템플릿으로 변환
+
+  - `form.html`
+
+    ```html
+    <form action="" method="POST">
+    	{% csrf_token %}
+        {{ form.as_p }}
+        <input type = "submit" value="Submit">
+    </form>
+    ```
+
+    - `form.as_p`: 폼을 <p> 태그로 감싸도록 랜더링 됨
+
+
+
+**Form에 Bootstrap 적용**
+
+- 설치 및 환경설정
+
+  - pip install
 
   ```bash
-  $ python manage.py shell
-  
-  # 생성
-  >>> from articles.models import Article
-  >>> article = Article()
-  >>> article.title = 'first'
-  >>> article.content = 'django'
-  >>> article= Article(title='second',content='edition')
-  >>> article.save()
-  >>> Article.objects.create(title=title,content=content)
-  
-  #조회
-  >>> article
-  <Article: Article object (2)>
-  >>> Article.objects.all()
-  <Article: Article object (2)>
-  
-  # __str__
-  >>> Article.objects.all()
-  <QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, 
-  
-  # filter로 조회
-  >>> Article.objects.filter(title='first')
-  <QuerySet [<Article: 1번 글 - first : django>, <Article: 5번 글 - first : hahaha>]>
-  
-  # get으로 조회
-  >>> Article.objects.get(pk=1)
-  <Article: 1번 글 - first : django>
-  
-  >>> article=Article.ojbects.get(pk=4)
-  Traceback (most recent call last):
-    File "<console>", line 1, in <module>
-  AttributeError: type object 'Article' has no attribute 'ojbects' #오류
-  
-  # 수정
-  >>> article=Article.objects.get(pk=4)
-  >>> article.title='4th'
-  >>> article.save()
-  >>> Article.objects.all()
-  <QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, <Article: 3번 글 - third : eye>, <Article: 4번
-  글 - 4th : kind>, <Article: 5번 글 - first : hahaha>]>
+  $ pip install django-bootstrap4
   ```
 
-  ***extensions 적용** : import문 생략 가능
+  - `settings.py`
 
-  ```
-  (bash)
-  pip install django-extensions
-  
-  (setting.py) 
+  ```python
   INSTALLED_APPS = [
-      'django_extensions',
+    'bootstrap4',
   ]
+  ```
+
+- 뷰에서 폼 클래스 처리
+
+  - `views.py`
+
+    ```python
+    def update(request, article_pk):
+        article = get_object_or_404(Article, pk=article_pk)
+        if request.method =='POST':
+            form = ArticleForm(request.POST, instance=article)
+            if form.is_valid():
+                article = form.save()
+                return redirect('articles:detail', article.pk)
+        else:
+            form = ArticleForm(instance=article)
+        return render(request,'articles/form.html',{'form':form, 'article':article})
+    ```
+
+    - `form.save()`
+    - `form=폼객체(request.POST, instance=튜플)`
+    - ``form = 폼객체(instance=튜플)`
+
+  - `form.html`
+
+    ```html
+    {% load bootstrap4 %}
+    
+    {% if request.resolver_match.url_name == 'create' %}
+    <h1 class='text-center'>CREATE</h1>
+    {% else %}
+    <h1 class='text-center'>EDIT</h1>
+    {% endif %}
+    <hr>
+    
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_button "등록" button_type='submit' button_class='btn btn-dark' %}
+    </form>
+    
+    {% if request.resolver_match.url_name == 'create' %}
+    <a href="{% url 'articles:index' %}">[BACK]</a>
+    {% else %}
+    <a href="{% url 'articles:detail' article.pk %}">[BACK]</a>
+    {% endif %}
+    ```
+
+    - `{load bootstrap4}`
+    - `request.resolver_match.url_name`
+
+    - `bootstrap_form form layout='horizontal'`
+
+
+
+**외래키 처리**
+
+- `views.py`
+
+  ```python
+  def detail(request, article_id):
+      article = Article.objects.get(pk=article_id)
+      comments = article.comment_set.all()
+      comment_form = CommentForm()
+      return render(request, 'articles/detail.html',{'article':article,'comments':comments,'comment_form':comment_form})
   
-  (bash)
-  python manage.py shell_plus
+  def comment_create(request,article_id):
+      article = Article.objects.get(pk=article_id)
+      comment_form = CommentForm(request.POST)
+      	if request.method == 'POST':
+      		comment = comment_form.save(commit=False)
+      		comment.article = article
+      		comment.save()
+      		return redirect('articles:detail',article.id)
+      else:
+           return redirect('articles:detail',article_id)
+  ```
+
+  - `    comment = comment_form.save(commit=False)`    
+  - `comments = article.comment_set.all()`
+
+  
+
+**@require_POST**
+
+- `views.py`
+
+  ```python
+  from django.views.decorators.http import require_POST
+  
+  @require_POST
+  def comment_create(request,article_id):
+      article = Article.objects.get(pk=article_id)
+      comment_form = CommentForm(request.POST)
+      comment = comment_form.save(commit=False)
+      comment.article = article
+      comment.save()
+      return redirect('articles:detail',article_id)
+  
   ```
 
 
+
+## 로그인
+
+
+
+```python
+from django.contrib.auth.forms import UserCreationForm
+```
 
