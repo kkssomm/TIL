@@ -212,3 +212,19 @@ result4
   ```
   
 - RGraph
+
+  ```
+  RConnection r = null;
+  byte retImg [] = null;
+  ...
+  r.eval("unlink('test.jpg')");
+  			retImg = r.eval("r").asBytes();
+  ```
+
+
+
+
+
+namespace 체크
+
+<task: prefix
