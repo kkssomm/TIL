@@ -158,89 +158,27 @@ result4
 
 ### Java와 R 연동 예제
 
-`RConnection`: R에 접속하여 역할 수행
-
-`eval()` : REXP 타입으로 데이터를 반환 받음
-
-`assign()` : R의 변수에 REXP 또는 String 형태로 데이터를 지정하여 설정
-
-- R에서 주입 연산 후 가져오기
+- `RConnection`: R에 접속하여 역할 수행	
 
   ```
-  public static void getIntegers()throws REXPMismatchException, REngineException{
-  		RConnection rc = new RConnection(); 
-  		double[] dataX = {1,2,3,4,5,6,7,8,9,10};
-  		rc.assign("x",dataX);
-  		rc.eval("y<-x+10");
-  		int[] resultX = rc.eval("y").asIntegers();
-  		for(int i=0;i<resultX.length;i++) {
-  			System.out.println(resultX[i]);
-  		}
-  		rc.close();
-  	}
+  RConnection rc = new RConnection();
   ```
 
-  11
-  12
-  13
-  14
-  15
-  16
-  17
-  18
-  19
-  20
-
-- R에서 생성 연산 후 가져오기
+- `eval()` : REXP 타입으로 데이터를 반환 받음
 
   ```
-  public static void getDataFrame1()throws REXPMismatchException, RserveException{
-  		RConnection rc = new RConnection();
-  		REXP x= rc.eval("d<-data.frame(LETTERS[11:20],c(11:20),stringsAsFactors=F)");
-  		RList list = x.asList();
-  		int v_size=list.size();
-  		int d_length = list.at(0).length();
-  		System.out.println("데이터(관측치)의 갯수 :"+d_length);
-  		System.out.println("변수의 갯수 :"+ v_size);
-  		int arrayRows = v_size;
-  		int arrayCols = d_length;
-  		String[][] s =new String[arrayRows][]; //데이터 프레임의 변수 갯수로 행의 크기
-  		for(int i=0;i<arrayRows;i++) {
-  			s[i] = list.at(i).asStrings();
-  		}
-  		for(int i=0;i<arrayRows;i++) {
-  			for(int j=0;j<arrayCols;j++) {
-  				System.out.println(s[i][j]+"\t");
-  			}
-  			System.out.println();
-  		}
-  		rc.close();
-  	}
+  REXP x= rc.eval("R.version.string");
+  REXP x= rc.eval("length(LETTERS)");
+  REXP x= rc.eval("rnorm(20)");
+  int[] resultX = rc.eval("y").asIntegers();
   ```
 
-  데이터(관측치)의 갯수 :10
-  변수의 갯수 :2
-  K	
-  L	
-  M	
-  N	
-  O	
-  P	
-  Q	
-  R	
-  S	
-  T	
+- assign()` : R의 변수에 REXP 또는 String 형태로 데이터를 지정하여 설정
 
-  11	
-  12	
-  13	
-  14	
-  15	
-  16	
-  17	
-  18	
-  19	
-  20	
+  ```
+  double[] dataX = {1,2,3,4,5,6,7,8,9,10};
+  rc.assign("x",dataX);
+  ```
 
 
 
@@ -255,25 +193,22 @@ result4
   - 테이블의 전체 행 추출
 
     ```
-    if( type == 1)
-    				r.eval("query = 'SELECT * FROM VISITOR'");
-    			else if (type == 2)
-    				r.eval("query = 'SELECT * FROM VISITOR order by name'");
-    			RList list = r.eval("dbGetQuery(conn,query)").asList();
-    ```
-
-  - 추출 행 검색
-
-    ```
-    r.eval("query <- 'SELECT * FROM VISITOR WHERE NAME = "+name+"'"); 
+    r.eval("query = 'SELECT * FROM VISITOR'");
     RList list = r.eval("dbGetQuery(conn,query)").asList();
     ```
-
+    
+  - 추출 행 검색
+  
+  ```
+    r.eval("query <- 'SELECT * FROM VISITOR WHERE NAME = "+name+"'"); 
+  RList list = r.eval("dbGetQuery(conn,query)").asList();
+  ```
+  
   - 테이블 생성
-
-    ```
+  
+  ```
     r.eval("insertSQL <- 'INSERT INTO visitor VALUES ("+name+",sysdate,"+content+", visitor_seq.nextval)'");
-    			r.eval("dbSendUpdate (conn, insertSQL)");
-    ```
-
+  			r.eval("dbSendUpdate (conn, insertSQL)");
+  ```
+  
 - RGraph
