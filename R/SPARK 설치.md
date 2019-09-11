@@ -1,3 +1,80 @@
+## SPARK 설치
+
+- 파일 다운
+
+  - wget  http://mirror.apache-kr.org/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+
+  - tar xvzf spark-2.4.3-bin-hadoop2.7.tgz
+
+  - mv spark-2.4.3-bin-hadoop2.7.tgz spark-2.4.3
+
+- PATH설정
+
+  - vi .bashrc
+
+  - 하둡과 하이브 중간에 추가
+
+    export SPARK_HOME=/root/spark-2.4.3
+
+    export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
+
+  - source.bashrc
+    
+    - path 설정 중 실수 -> PATH=/usr/local/bin:/bin:/usr/bin-
+
+- log4j 설정
+
+  - cd $SPARK_HOME/conf
+  - cp log4j.properties.template  log4j.properties
+  - vi log4j.properties
+  - 파일 수정 : 로그레벨 = INFO -> WARN
+
+- spark-shell
+
+
+
+## 워드 카운트 수행 : Java
+
+**리눅스의 eclipse에서 수행**
+
+- class 임포트
+  - https://mvnrepository.com/ 에서 spark core 관련 dependency 태그 pom.xml에 추가
+  - class 임포트
+
+- jar file로 묶어서 실행
+
+  - cd $SPARK_HOME
+  - mkdir myspark
+  - class export -> JAR file -> browse : /root/spark-2.4.3/myspark/wc7.jar
+  - cd myspark
+  - ls myspark
+  - jar tvf wc7.jar
+    - wc7 -> yarn을 사용해 파티션이 적용됨
+
+  
+
+  
+
+## RDD
+
+
+
+
+
+## Spart History Server
+
+local vs application
+
+
+
+
+
+stop-history-server.sh
+
+
+
+
+
 # Spark2
 
 
@@ -66,16 +143,12 @@ http://master:50070/
 ### eclipse에서 수행
 
 - 마켓 플레이스에서 scala IDE 설치
-
 - scala project 생성 
   - scalaexam
-
 - scala에서 자동으로 설정된 library변경
   - JRE System Library -> Properties
-
 - 패키지 생성 
   - edu.scala.exdam
-
 - run as -> scalaApp
 
 
@@ -174,6 +247,7 @@ http://master:50070/
   > > ${1+1}
 
 - f
+
 - raw
 
 
@@ -231,3 +305,75 @@ def add(x:Int, y: Int): Unit={
 	println(x+y)
 }
 ```
+
+
+
+
+
+## Spark 프로그래밍
+
+### 기초 문법
+
+: 터미널에서 수행
+
+`parallelize()`
+
+- 1
+
+  ```
+  val x= sc.
+  ```
+
+  Long = 5
+
+  String = spark
+
+  Array[(String, Int)] = Array((spark,1), (rdd,1), (example,1), (sample,1), (example,1))
+
+  (spark,1)
+  (rdd,1)
+  (example,1)
+  (sample,1)
+  (example,1)
+
+  Array[(String, Int)] = Array((spark rdd example,17), (sample example,14))
+
+  (spark rdd example,17)
+  (sample example,14)
+
+- 
+
+
+
+y.collect
+
+Array[Array[String]] = Array(Array(spark, rdd, example), Array(sample, example))
+
+
+
+### 기본 API를 이용한 프로그래밍
+
+- 워드카운트
+
+  - 텍스트 파일로부터 RDD 생성
+
+    ```
+    scala > val textRDD = sc.textFile("file///root/sampledata/simple-words.txt")
+    
+    scala > textArray = textRDD.collect
+    scala > textArray.foreach(println)
+    ```
+
+    cat
+    dog
+    .org
+    cat
+    cat
+    &&
+    tiger
+    dog
+    100
+    tiger
+    cat
+
+  - RDD요소 필터링
