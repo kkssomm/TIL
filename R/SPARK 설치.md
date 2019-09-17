@@ -353,20 +353,29 @@ Array[Array[String]] = Array(Array(spark, rdd, example), Array(sample, example))
 
 ### 기본 API를 이용한 프로그래밍
 
-- 워드카운트
+- 스파크 애플리케이션
 
+  **spark에서 실행**
+
+  - collect 액션
+  
+    : RDD에 collect 액션을 적용하면 클러스터에서 분산처리된 해당 RDD의 파티션이 드라이버 프로그램으로 반환
+  
+    ```
+    scala > val Array = RDD.collect
+  ```
+  
   - 텍스트 파일로부터 RDD 생성
-
+  
+    `textFile(path)` 
+    
     ```
     scala > val textRDD = sc.textFile("file///root/sampledata/simple-words.txt")
-    
-    scala > textArray = textRDD.collect
-    scala > textArray.foreach(println)
     ```
-
-    cat
+    
+  cat
     dog
-    .org
+  .org
     cat
     cat
     &&
@@ -375,5 +384,113 @@ Array[Array[String]] = Array(Array(spark, rdd, example), Array(sample, example))
     100
     tiger
     cat
-
+    
   - RDD요소 필터링
+  
+    `filter(T => Booelan)` : RDD의 각 요소를 매개변수로 filter 메소드의 내부에서 호출되며, 매개변수로 받은 요소를 남길 경우에는 true, 삭제할 경우에는 false를 결과 값으로 함
+  
+    ```
+    scala > val isWord: String => Boolean = word => word.matches("""\p{Alnum}+""")
+    scala > val wordRDD = textRDD.filter(isWord)
+    ```
+  
+    cat
+    dog
+    cat
+    cat
+    tiger
+    dog
+    100
+    tiger
+    cat
+  
+  - RDD요소 가공
+  
+    ```
+    scala > val wordAndOnePairRDD = wordRDD.amp(word => (word, 1))
+    ```
+  
+    (cat,1)
+    (dog,1)
+    (cat,1)
+    (cat,1)
+    (tiger,1)
+    (dog,1)
+    (100,1)
+    (tiger,1)
+    (cat,1)
+  
+  - RDD 요소를 키 단위로 집약처리
+  
+    ```
+    
+    ```
+
+- 드라이버 프로그램 작성하기 
+
+  **linux-eclipse 에서 실행**
+
+  1) Hadoop DFS 와 Hadoop YARN을 기동
+
+  2) scalaexam을 maven 프로젝트로 변환
+
+  - 프로젝트>Configure>Convert to Maven
+
+  3) pom.xml에 spark core 라이브러리에 대한  <dependecy> 태그를 추가
+
+  - [mvnrepository](https://mvnrepository.com/)
+
+  4) jar 파일을
+
+  - 로컬파일시스템
+
+    ```
+    spark-submit --master local --class com.example.chapter5.WordCount --name WordCount wc111.jar file:///root/sampledata/simple-words.txt
+    ```
+
+  - 하둡파일시스템
+
+    ```
+    spark-submit --master local --class com.example.chapter5.WordCount --name WordCount wc111.jar file:///root/sampledata/simple-words.txt
+    ```
+
+
+
+
+
+val textRDD = sc.textFile("file:///root/spark-2.4.3/README.md")
+
+val wordCandidateRDD = textRDD.flatMap(_.split("[ ,.]"))
+
+ val wordRDD = wordCandidateRDD.filter(_.matches("""\p{Alnum}+"""))
+
+val wordAndOnePairRDD = wordRDD.map((_,1))
+
+ val wordAndCountRDD = wordAndOnePairRDD.reduceByKey(_+_)
+
+val countAndWordRDD = wordAndCountRDD.map{wordAndCount =>
+     | (wordAndCount._2,wordAndCount._1)
+     | }
+
+val sortedCWRDD = countAndWordRDD.sortByKey(false)
+
+ val sortedWCRDD = sortedCWRDD.map{countAndWord=>
+     | (countAndWord._2,countAndWord._1)
+     | }
+
+ val sortedWCArray=sortedWCRDD.collect
+
+scala> sortedWCArray.foreach(println)
+
+ val sortedWCRDD = sortedCWRDD.map{
+     | case(count,word)=>
+     | (word,count)
+     | }
+
+scala> val top3WordArray=sortedWCRDD.take(3)
+
+scala> top3WordArray.foreach(println)
+
+(the,24)
+(Spark,17)
+(to,17)
