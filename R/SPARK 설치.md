@@ -358,73 +358,77 @@ Array[Array[String]] = Array(Array(spark, rdd, example), Array(sample, example))
   **spark에서 실행**
 
   - collect 액션
-  
+
     : RDD에 collect 액션을 적용하면 클러스터에서 분산처리된 해당 RDD의 파티션이 드라이버 프로그램으로 반환
-  
+
     ```
     scala > val Array = RDD.collect
-  ```
-  
+    ```
   - 텍스트 파일로부터 RDD 생성
-  
-    `textFile(path)` 
-    
-    ```
-    scala > val textRDD = sc.textFile("file///root/sampledata/simple-words.txt")
-    ```
-    
-  cat
-    dog
-  .org
-    cat
-    cat
-    &&
-    tiger
-    dog
-    100
-    tiger
-    cat
-    
+
+    `textFile(path)`
+
+  ```
+  scala > val textRDD = sc.textFile("file///root/sampledata/simple-words.txt")   
+  ```
+  > cat
+  >   dog
+  > .org
+  >   cat
+  >   cat
+  >   &&
+  >   tiger
+  >   dog
+  >   100
+  >   tiger
+  >   cat
+
   - RDD요소 필터링
-  
+
     `filter(T => Booelan)` : RDD의 각 요소를 매개변수로 filter 메소드의 내부에서 호출되며, 매개변수로 받은 요소를 남길 경우에는 true, 삭제할 경우에는 false를 결과 값으로 함
-  
+
     ```
-    scala > val isWord: String => Boolean = word => word.matches("""\p{Alnum}+""")
+   scala > val isWord: String => Boolean = word => word.matches("""\p{Alnum}+""")
     scala > val wordRDD = textRDD.filter(isWord)
     ```
-  
-    cat
-    dog
-    cat
-    cat
-    tiger
-    dog
-    100
-    tiger
-    cat
-  
+  > cat
+  >   dog
+  >   cat
+  >   cat
+  >   tiger
+  >   dog
+  >   100
+  >   tiger
+  >   cat
+
   - RDD요소 가공
-  
+
     ```
-    scala > val wordAndOnePairRDD = wordRDD.amp(word => (word, 1))
+  scala > val wordAndOnePairRDD = wordRDD.amp(word => (word, 1))
     ```
-  
-    (cat,1)
-    (dog,1)
-    (cat,1)
-    (cat,1)
-    (tiger,1)
-    (dog,1)
-    (100,1)
-    (tiger,1)
-    (cat,1)
-  
+  >   (cat,1)
+  >   (dog,1)
+  >   (cat,1)
+  >   (cat,1)
+  >   (tiger,1)
+  >   (dog,1)
+  >   (100,1)
+  >   (tiger,1)
+  >   (cat,1)
+
   - RDD 요소를 키 단위로 집약처리
-  
-    ```
-    
-    ```
+
+  ```
+  scala> val wordAncCountRDD = wordAndOnePairRDD.reduceByKey((result,elem)=>result+elem)
+  ```
+
+  >  (dog,2)
+  >
+  > (cat,4)
+  >
+  > (tiger,2)
+  >
+  > (100,1)
 
 - 드라이버 프로그램 작성하기 
 
@@ -440,57 +444,157 @@ Array[Array[String]] = Array(Array(spark, rdd, example), Array(sample, example))
 
   - [mvnrepository](https://mvnrepository.com/)
 
-  4) jar 파일을
+  4) jar 파일을 저장할 폴더를 SPARK_HOME 디렉토리에 생성
 
+  ```
+mkdir myspark
+  ```
+  
   - 로컬파일시스템
 
     ```
-    spark-submit --master local --class com.example.chapter5.WordCount --name WordCount wc111.jar file:///root/sampledata/simple-words.txt
+  spark-submit --master local --class com.example.chapter5.WordCount --name WordCount wc111.jar file:///root/sampledata/simple-words.txt
     ```
-
+  
   - 하둡파일시스템
-
+  
     ```
     spark-submit --master local --class com.example.chapter5.WordCount --name WordCount wc111.jar file:///root/sampledata/simple-words.txt
     ```
 
 
 
+- Sort
+
+  - RDD 요소 정렬
+
+    ```
+    val textRDD = sc.textFile("file:///root/spark-2.4.3/README.md")
+    val wordCandidateRDD = textRDD.flatMap(_.split("[ ,.]"))
+    val wordRDD = wordCandidateRDD.filter(_.matches("""\p{Alnum}+"""))
+    val wordAndOnePairRDD = wordRDD.map((_,1))
+    val wordAndCountRDD = wordAndOnePairRDD.reduceByKey(_+_)
+    
+    val countAndWordRDD = wordAndCountRDD.map{wordAndCount =>
+         | (wordAndCount._2,wordAndCount._1)
+         | }
+         
+    val sortedCWRDD = countAndWordRDD.sortByKey(false)
+    val sortedWCRDD = sortedCWRDD.map{countAndWord=>
+         | (countAndWord._2,countAndWord._1)
+         | }
+    ```
+
+    - 다른방법
+
+      ```
+       val sortedWCRDD = sortedCWRDD.map{
+           | case(count,word)=>
+           | (word,count)
+           | }
+      ```
+
+  - RDD 선두로부터 요소 꺼내기
+
+    ```
+    scala> val top3WordArray=sortedWCRDD.take(3)
+    scala> top3WordArray.foreach(println)
+    ```
+
+    > (the,24)
+    > (Spark,17)
+    > (to,17)
 
 
-val textRDD = sc.textFile("file:///root/spark-2.4.3/README.md")
 
-val wordCandidateRDD = textRDD.flatMap(_.split("[ ,.]"))
+### Spark SQL
 
- val wordRDD = wordCandidateRDD.filter(_.matches("""\p{Alnum}+"""))
+- 준비
 
-val wordAndOnePairRDD = wordRDD.map((_,1))
+  - hive-site.xml
 
- val wordAndCountRDD = wordAndOnePairRDD.reduceByKey(_+_)
+    hive-site.xml을 $SPARK_HOME/conf에 배치
 
-val countAndWordRDD = wordAndCountRDD.map{wordAndCount =>
-     | (wordAndCount._2,wordAndCount._1)
+  - 샘플 데이터 파일
+
+    /edudata/data/dessert-menu.csv
+
+
+
+
+
+scala> case class Dessert(menuId: String, name: String, price: Int, kcal:Int)
+defined class Dessert
+
+scala> val dessertRDD = sc.textFile("/edudata/data/dessert-menu.csv")
+dessertRDD: org.apache.spark.rdd.RDD[String] = /edudata/data/dessert-menu.csv MapPartitionsRDD[1] at textFile at <console>:24
+
+scala> val IdAndCountArray = dessertRDD.collect
+IdAndCountArray: Array[String] = Array(D-0,초콜릿 파르페,4900,420, D-1,푸딩 파르페,5300,380, D-2,딸기 파르페,5200,320, D-3,판나코타,4200,283, D-4,치즈 무스,5800,288, D-5,아포가토,3000,248, D-6,티라미스,6000,251, D-7,녹차 파르페,4500,380, D-8,바닐라 젤라또,3600,131, D-9,카라멜 팬케익,3900,440, D-10,크림 안미츠,5000,250, D-11,고구마 파르페,6500,650, D-12,녹차 빙수,3800,320, D-13,초코 크레이프,3700,300, D-14,바나나 크레이프,3300,220, D-15,커스터드 푸딩,2000,120, D-16,초코 토르테,3300,220, D-17,치즈 수플레,2200,160, D-18,호박 타르트,3400,230, D-19,캬라멜 롤,3700,230, D-20,치즈 케익,4000,230, D-21,애플 파이,4400,350, D-22,몽블랑,4700,290)
+
+scala> val dessertDF = dessertRDD.map{ record =>
+     | val splitRecord = record.split(",")
+     | val menuId = splitRecord(0)
+     | val name = splitRecord(1)
+     | price = splitRecord(2).toInt
+     | kcal = splitRecord(3).toInt
+     | Dessert(menuId, name, price, kcal)
+     | }.toDF
+
+scala> val dessertDF = dessertRDD.map{ record =>
+     | val splitRecord = record.split(",")
+     | val menuId = splitRecord(0)
+     | val name = splitRecord(1)
+     | val price = splitRecord(2).toInt
+     | val kcal = splitRecord(3).toInt
+     | Dessert(menuId,name,price,kcal)
+     | }.toDF
+dessertDF: org.apache.spark.sql.DataFrame = [menuId: string, name: string ... 2 more fields]
+
+scala> dessertDF.printSchema
+root
+ |-- menuId: string (nullable = true)
+ |-- name: string (nullable = true)
+ |-- price: integer (nullable = false)
+ |-- kcal: integer (nullable = false)
+
+
+scala> val rowRDD = dessertDF.rdd
+rowRDD: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] = MapPartitionsRDD[6] at rdd at <console>:25
+
+scala> val nameAndPriceRDD = rowRDD.map{row=>
+     | val name = row.getString(1)
+     | val price = row.getInt(2)
+     | (name,price)
      | }
+nameAndPriceRDD: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[7] at map at <console>:25
 
-val sortedCWRDD = countAndWordRDD.sortByKey(false)
+scala> nameAndPriceRDD.collect.foreach(pritnln)
+<console>:26: error: not found: value pritnln
+       nameAndPriceRDD.collect.foreach(pritnln)
+                                       ^
 
- val sortedWCRDD = sortedCWRDD.map{countAndWord=>
-     | (countAndWord._2,countAndWord._1)
-     | }
-
- val sortedWCArray=sortedWCRDD.collect
-
-scala> sortedWCArray.foreach(println)
-
- val sortedWCRDD = sortedCWRDD.map{
-     | case(count,word)=>
-     | (word,count)
-     | }
-
-scala> val top3WordArray=sortedWCRDD.take(3)
-
-scala> top3WordArray.foreach(println)
-
-(the,24)
-(Spark,17)
-(to,17)
+scala> nameAndPriceRDD.collect.foreach(println)
+(초콜릿 파르페,4900)
+(푸딩 파르페,5300)
+(딸기 파르페,5200)
+(판나코타,4200)
+(치즈 무스,5800)
+(아포가토,3000)
+(티라미스,6000)
+(녹차 파르페,4500)
+(바닐라 젤라또,3600)
+(카라멜 팬케익,3900)
+(크림 안미츠,5000)
+(고구마 파르페,6500)
+(녹차 빙수,3800)
+(초코 크레이프,3700)
+(바나나 크레이프,3300)
+(커스터드 푸딩,2000)
+(초코 토르테,3300)
+(치즈 수플레,2200)
+(호박 타르트,3400)
+(캬라멜 롤,3700)
+(치즈 케익,4000)
+(애플 파이,4400)
+(몽블랑,4700)
