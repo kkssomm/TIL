@@ -15,7 +15,7 @@ $ pip install jupyter notebook # jupyter notebook
 $ jupyter notebook
 ```
 
-c 
+
 
 ### 자료구조
 
@@ -218,6 +218,10 @@ def index():
 
 
 
+### GET/POST
+
+
+
 ### 데이터베이스
 
 - 데이터 베이스 엔진 설정
@@ -233,12 +237,6 @@ def index():
   }
   ```
 
-- 테이블 생성
-
-  ```bash
-  $ python manage.py migrate
-  ```
-
 - 관리자 생성
 
   ```bash
@@ -246,6 +244,18 @@ def index():
   ```
 
 - Model 코딩
+
+  - `models.py`
+
+    ```python
+    class Article(models.Model):
+        title = models.CharField(max_length=10)
+        content = models.TextField()
+        create_at = models.DateTimeField(auto_now_add=True)
+        updated_at = models.DateTimeField(auto_now=True)
+    ```
+
+    
 
   ```bash
   notepad models.py # 테이블 정의\
@@ -282,6 +292,73 @@ def index():
         # pub_date 속성을 역순으로 정렬하여 최근 5개의 Question객체를 가져옴
         context = {'latest_question_list':latest_question_list}
         return render(request, 'polls/index.html',context)
-    ```
-
     
+def __str__(self):
+        return f'{self.id}번 글 - {self.title} : {self.content}'
+    
+    ```
+    
+  
+- 파이썬 쉘
+
+  ```bash
+  $ python manage.py shell
+  
+  # 생성
+  >>> from articles.models import Article
+  >>> article = Article()
+  >>> article.title = 'first'
+  >>> article.content = 'django'
+  >>> article= Article(title='second',content='edition')
+  >>> article.save()
+  >>> Article.objects.create(title=title,content=content)
+  
+  #조회
+  >>> article
+  <Article: Article object (2)>
+  >>> Article.objects.all()
+  <Article: Article object (2)>
+  
+  # __str__
+  >>> Article.objects.all()
+  <QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, 
+  
+  # filter로 조회
+  >>> Article.objects.filter(title='first')
+  <QuerySet [<Article: 1번 글 - first : django>, <Article: 5번 글 - first : hahaha>]>
+  
+  # get으로 조회
+  >>> Article.objects.get(pk=1)
+  <Article: 1번 글 - first : django>
+  
+  >>> article=Article.ojbects.get(pk=4)
+  Traceback (most recent call last):
+    File "<console>", line 1, in <module>
+  AttributeError: type object 'Article' has no attribute 'ojbects' #오류
+  
+  # 수정
+  >>> article=Article.objects.get(pk=4)
+  >>> article.title='4th'
+  >>> article.save()
+  >>> Article.objects.all()
+  <QuerySet [<Article: 1번 글 - first : django>, <Article: 2번 글 - second : edition>, <Article: 3번 글 - third : eye>, <Article: 4번
+  글 - 4th : kind>, <Article: 5번 글 - first : hahaha>]>
+  ```
+
+  ***extensions 적용** : import문 생략 가능
+
+  ```
+  (bash)
+  pip install django-extensions
+  
+  (setting.py) 
+  INSTALLED_APPS = [
+      'django_extensions',
+  ]
+  
+  (bash)
+  python manage.py shell_plus
+  ```
+
+
+
