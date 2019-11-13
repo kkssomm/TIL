@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canvas API</title>
+</head>
+<style>
+div.box{
+text-align : center;
+margin :  20px auto;
+}
+</style>
+<body>
+<div class = "box">
+	<button onclick="save();">저장하기</button>
+	<button onclick="restore();">읽어오기</button>
+	<button onclick="initialize();">삭제하기</button>
+</div>
+	<canvas id="canvas" width="580" height="450"></canvas>
+	<script>
+		var elem = document.getElementById('canvas');
+		var canvas = elem.getContext('2d');
+
+		function initiate() {
+			
+			//스마일1
+			//얼굴
+			canvas.beginPath();
+			canvas.arc(100, 100, 100, 0, Math.PI * 2, false);
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			//눈코입
+			canvas.beginPath();
+			canvas.arc(75, 100, 30, 0, Math.PI, false);
+			canvas.fillStyle = "brown";
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(125, 100, 30, 0, Math.PI, false);
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(75, 50, 10, 0, Math.PI * 2, true);
+			canvas.fillStyle = "black";
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(125, 50, 10, 0, Math.PI * 2, true);
+			canvas.fill();
+			//장식
+			canvas.beginPath();
+			canvas.moveTo(75, 175);
+			canvas.lineTo(100, 200);
+			canvas.lineTo(75, 225);
+			canvas.closePath();
+			canvas.fillStyle = "red";
+			canvas.fill();
+			canvas.beginPath();
+			canvas.moveTo(100, 200);
+			canvas.lineTo(125, 175);
+			canvas.lineTo(125, 225);
+			canvas.closePath();
+			canvas.fill();
+			
+			//스마일2
+			//얼굴
+			canvas.beginPath();
+			canvas.arc(400, 100, 100, 0, Math.PI * 2, false);
+			canvas.strokeStyle = "lightblue";
+			canvas.stroke();
+			canvas.fillStyle = "lightblue";
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(400, 125, 75, 0, Math.PI * 2, false);
+			canvas.strokeStyle = "white";
+			canvas.stroke();
+			canvas.fillStyle = "white";
+			canvas.fill();
+			//눈코입
+			canvas.beginPath();
+			canvas.arc(375, 50, 20, 0, Math.PI * 2, true);
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(425, 50, 20, 0, Math.PI * 2, true);
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.fill();
+			canvas.beginPath();
+			canvas.arc(375, 50, 10, 0, Math.PI, true);
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.arc(425, 50, 10, 0, Math.PI, true);
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.arc(400, 100, 10, 0, Math.PI * 2, false);
+			canvas.strokeStyle = "red";
+			canvas.stroke();
+			canvas.fillStyle = "red";
+			canvas.fill();
+			canvas.beginPath();
+			canvas.moveTo(400, 125);
+			canvas.lineTo(400, 150);
+			canvas.closePath();
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.moveTo(375, 150);
+			canvas.quadraticCurveTo(400, 200, 425, 150);
+			canvas.stroke();
+			canvas.fillStyle = "orange";
+			canvas.fill();
+
+			//장식
+			canvas.beginPath();
+			canvas.moveTo(460, 120);
+			canvas.lineTo(480, 110);
+			canvas.closePath();
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.moveTo(460, 130);
+			canvas.lineTo(480, 140);
+			canvas.closePath();
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.moveTo(340, 120);
+			canvas.lineTo(320, 110);
+			canvas.closePath();
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+			canvas.beginPath();
+			canvas.moveTo(340, 130);
+			canvas.lineTo(320, 140);
+			canvas.closePath();
+			canvas.strokeStyle = "black";
+			canvas.stroke();
+		}
+		window.addEventListener("load", initiate, false);
+
+		////////////////////////////////////////////////////
+		function initialize() {
+			canvas.beginPath();
+			canvas.rect(0, 0, 580, 450);
+			canvas.fillStyle = "white";
+			canvas.fill();
+		}
+		function save() {
+			alert(elem.toDataURL());
+			localStorage.setItem("canvas", elem.toDataURL());
+		}
+
+		function restore() {
+			var img = new Image();
+			img.src = localStorage.getItem("canvas");
+			img.onload = function() {
+				canvas.drawImage(img, 0, 0);
+			}
+		}
+	</script>
+
+</body>
+</html>
+
