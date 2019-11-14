@@ -20,4 +20,4 @@
 
 날짜 : 2019/05/27
 
-!/image/homework.png
+!/images/homework.png
