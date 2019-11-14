@@ -6,6 +6,8 @@
 
 날짜 : 2019/05/27
 
+![member](/images/memberForm.png)
+
 
 
 
@@ -14,10 +16,14 @@
 
 날짜 : 2019/05/27
 
+![visitor](/images/visitorForm.png)
+
+
+
 
 
 ### homework.html
 
 날짜 : 2019/05/27
 
-!/images/homework.png
+![homework](/images/homework.png)
