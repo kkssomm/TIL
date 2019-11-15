@@ -629,3 +629,31 @@ $ pip install pilkit
 from django.contrib.auth.forms import UserCreationForm
 ```
 
+```
+user1.article_set.all()
+
+for article in user1.article_set.all()
+	for comment in article.comment_set.all():
+		print()?
+		
+c2.user
+
+c2.user.name
+
+c2.user.article_set.all() // c2의 user가 쓴 모든 글
+
+article1.comment_set.all() 
+
+article1.comment_set.first().user.name // 1번째 글의 첫번째 댓글을 쓴 사람의 이름
+
+article1.comment_set.all()[0].user.name
+
+article1.comment_set.all()[1:4]
+
+article1.comment_set.all()[1].user.article_set.all()[0].comment_set.all()
+# 첫번째 글의 두번째 댓글을 쓴 사람의 첫번째 글의 댓글 목록
+
+```
+
+
+
