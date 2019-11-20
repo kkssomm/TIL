@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>homework</title>
+
+<style>
+header {
+	width: 100%;
+	margin: 0px auto;
+	padding: 20px;
+	background-image: linear-gradient(45deg, lightgreen, lightblue, skyblue);
+	text-align: center;
+}
+
+h1 {
+	color: navy;
+	text-shadow: 2px 2px 2px white;
+}
+
+nav a {
+	text-decoration: none;
+	margin: 20px;
+}
+
+a:hover {
+	font-weight: bold;
+}
+
+article {
+	width: 80%;
+	margin: 20px auto;
+	padding: 20px;
+}
+
+article.a {
+	border: 2px dotted navy;
+	border-radius: 20px;
+}
+
+h2.ha {
+	color: navy;
+}
+
+article.b {
+	border: 2px solid cadetblue;
+	border-radius: 20px;
+}
+
+h2.hb {
+	color: cadetblue;
+}
+
+article.c {
+	border: 2px dashed darkgreen;
+	border-radius: 20px;
+}
+
+h2.hc {
+	color: darkgreen;
+}
+
+span {
+	color: navy;
+}
+
+table {
+	margin-bottom: 20px;
+	border-collapse: collapse;
+}
+
+th {
+	background-color: cadetblue;
+}
+
+th, td {
+	border: 1px solid cadetblue;
+}
+
+figure {
+	text-align: center;
+}
+
+img:hover {
+	opacity: 0.5;
+}
+
+aside {
+	text-align: center;
+}
+
+footer {
+	color: white;
+	background-color: #008080;
+	padding: 20px;
+	margin: 20px;
+	text-align: center;
+}
+
+.albums {
+	margin: 30px;
+	width: 900px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.canvas {
+	border: 3px dashed red;
+	margin: 10px;
+	padding: 10px;
+	float: left;
+}
+
+.gallery img {
+	width: 100px;
+	height: 100px;
+}
+
+.gallery {
+	text-align: left;
+	border: 1px solid green;
+	margin: 10px;
+	padding: 10px;
+	width: 400px;
+	height: 500px;
+	float: right;
+}
+</style>
+
+</head>
+
+<body>
+
+	<header>
+		<h1>HTML5 학습<output id='outimg'></output></h1>
+		<nav>
+			<a href="https://www.w3.org/">W3C</a> <a
+				href="https://www.w3schools.com/">W3SCHOOLS</a> <a
+				href="https://jquery.com/">jQuery</a>
+		</nav>
+	</header>
+
+	<section>
+		<article class="a">
+			<h2 class="ha">나의 소개</h2>
+			<ul>
+				<li>이름: 손흥민</li>
+				<li>별명: 피카츄</li>
+				<li>관심기술: 자바</li>
+				<li>취미: 스티커 모으기</li>
+			</ul>
+		</article>
+		<article class="b">
+			<h2 class="hb">올해 재미있게 읽은 책</h2>
+			<table>
+				<tr>
+					<th><b>제목</b></th>
+					<th><b>장르</b></th>
+				</tr>
+				<tr>
+					<td>용의자x의 헌신</td>
+					<td>추리</td>
+				</tr>
+				<tr>
+					<td>모던 자바스크립트 입문</td>
+					<td>학습</td>
+				</tr>
+				<tr>
+					<td>Java 웹 개발서</td>
+					<td>에세이</td>
+				</tr>
+			</table>
+		</article>
+		<article class="c">
+			<h2 class="hc">
+				자랑하고 싶은 <span>우리동네</span>의 아름다운 곳
+			</h2>
+			구름과 맞닿은 곳에서 남산의 자연과 21세기 첨단기술이 만들어낸 절묘한 조화, 서울의 복합 문화공간 N서울타워입니다.
+			<figure>
+				<img
+					src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODA4MDhfMTcx%2FMDAxNTMzNzI4MzY1NzU3.0LuJFgQzcopgY2vJ5xiT-anePBbxHi3ua5G3EfPuf5og.dT0v_KFADFD4CZ9TzyO-TUV0vzcf8mZVgRvW1wqrefQg.JPEG.kkameo123%2F%25B3%25B2%25BB%25EAN%25BC%25AD%25BF%25EF%25C5%25B8%25BF%25F6_%25BD%25EB%25C5%25E4%25C0%25CC%25B9%25C2%25C1%25F6%25BE%25F6_%25B3%25B2%25BB%25EA%25B0%25A1%25BA%25BC%25B8%25B8%25C7%25D1%25B0%25F7_%25B3%25B2%25BB%25EA%25BA%25BC%25B0%25C5%25B8%25AE_%25BE%25C6%25C0%25CC%25BF%25CD%25B0%25A1%25BA%25BC%25B8%25B8%25C7%25D1%25B0%25F7_%25B9%25E6%25C7%25D0%25B6%25A7%25B0%25A1%25BA%25BC%25B8%25B8%25C7%25D1%25B0%25F7_%25286%2529.jpg&type=b400"
+					width=400px alt="NSeoulTower">
+				<figcaption>[그림1] N서울타워</figcaption>
+			</figure>
+		</article>
+	</section>
+	<aside>
+		<video width="640" controls="controls">
+			<source
+				src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+				type="video/mp4">
+		</video>
+	</aside>
+	<hr>
+	<h1>HTML5로 크리스마스 카드 만들기</h1>
+	<button onclick="save();">저장하기</button>
+	<button onclick="restore();">읽어오기</button>
+	<button onclick="initialize();">지우기</button>
+	<br> 배경 칼라 설정 :
+	<input type="color" id="bColor"> 테두리 칼라 설정 :
+	<input type="color" id="strokeColor">
+	<br> 메세지 칼라 설정 :
+	<input type="color" id="messageColor"> 입력 메세지 :
+	<input type="text" id="msg">
+	<br>
+	<div class="albums">
+		<canvas class="canvas" id="myCanvas" width=400 height=500></canvas>
+		<section class="gallery">
+			<img id="1" src="image/g1.png"> <img id="2" src="image/g2.png">
+			<img id="3" src="image/g3.png"> <img id="4" src="image/g4.png">
+			<img id="5" src="image/g5.png"> <img id="6" src="image/g6.png">
+			<img id="7" src="image/g7.png"> <img id="8" src="image/g8.png">
+			<img id="9" src="image/g9.png"> <img id="10"
+				src="image/g10.png"> <img id="11" src="image/g11.png"> <img
+				id="12" src="image/g12.png">
+		</section>
+	</div>
+	<footer>
+		<i>이 문서는 김소미에 의해 HTML5와 CSS3 기술을 사용하여 2019년 05월 28일에
+			작성되었습니다.(ver.1)</i>
+	</footer>
+	<script>
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+			if (request.readyState == 4) {
+				if (request.status == 200) {
+					var str = request.responseText;
+					var jsObj = JSON.parse(str);
+					var output = document.getElementById('outimg');
+					output.innerHTML += "<img src='/edu/"+jsObj.img+"' width='50' height=auto>";
+				}
+			}
+		}
+		request.open("GET", "ajaxexam/content/weather.jsp", true);
+		request.send();
+	
+	
+		var canvas = document.getElementById("myCanvas");
+		var context = canvas.getContext("2d");
+		var rect = canvas.getBoundingClientRect();
+
+		function initiate() {
+			var images = document.querySelectorAll("section > img");
+			for (var i = 0; i < images.length; i++) {
+				images[i].addEventListener('dragstart', dragged, false);
+				images[i].addEventListener('dragend', ending, false);
+			}
+			canvas.addEventListener('dragover', function(e) {
+				e.preventDefault();
+			}, false);
+			canvas.addEventListener('drop', dropped, false);
+		}
+		function ending(e) {
+			elem = e.target;
+			//elem.style.visibility='hidden';
+			//elem.style.display='none';
+			//elem.parentNode.removeChild(elem);
+		}
+		function dragged(e) {
+			console.log("dragstart");
+			var elem = e.target;
+			e.dataTransfer.setData('aa', elem.getAttribute('id'));
+			e.dataTransfer.setDragImage(e.target, 0, 0);
+		}
+		function dropped(e) {
+
+			e.preventDefault();
+			var id = e.dataTransfer.getData('aa');
+			var elem = document.getElementById(id);
+
+			var posx = e.pageX - canvas.offsetLeft;
+			var posy = e.pageY - canvas.offsetTop;
+
+			context.drawImage(elem, posx, posy, 50, 50);
+
+		}
+		window.addEventListener('load', initiate, false);
+
+		function initialize() {
+			context.clearRect(0, 0, 400, 500);
+		}
+		function startMemo() {
+			initialize();
+		}
+		document.body.onload = startMemo;
+		function save() {
+			alert(canvas.toDataURL());
+			localStorage.setItem("canvas", canvas.toDataURL());
+		}
+		function restore() {
+			var img = new Image();
+			img.src = localStorage.getItem("canvas");
+			img.onload = function() {
+				context.drawImage(img, 0, 0);
+			}
+		}
+
+		var bColor = document.querySelector('#bColor');
+		bColor.addEventListener("change", function(e) {
+			canvas.style.backgroundColor = e.target.value;
+		}, false);
+
+		var strokeColor = document.querySelector("#strokeColor");
+		strokeColor.addEventListener("change", function(e) {
+			canvas.style.border = "3px dashed " + e.target.value;
+		}, false);
+
+		var messageColor = document.querySelector("#messageColor");
+		messageColor.addEventListener("change", function(e) {
+			context.fillStyle = e.target.value;
+		}, false)
+
+		var msg = document.querySelector("#msg");
+		canvas.addEventListener("click", function(e) {
+			var posx = e.pageX - canvas.offsetLeft;
+			var posy = e.pageY - canvas.offsetTop;
+			context.fillText(msg.value, posx, posy);
+		}, false)
+	</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Query 추출 실습</h1>
+	<hr>
+	<form method="get" action="/sedu/querytest">
+		이름 : <input type="text" id="stname" value="듀크" required>
+		<br>
+		암호 : <input type="password" name=pswd required>
+		<br>
+		나이 : <input type="number" name="age" required>
+		<br>
+		성별 : 
+		남자<input type="radio" name="gender" value="남자"> 
+		여자<input type="radio" name="gender"value="여자">
+		<br>
+		취미 : 
+		피아노<input type="checkbox" name="hobby" value="피아노">
+		수영 <input type="checkbox" name="hobby" value="수영">
+		독서<input type="checkbox" name="hobby" value="독서">
+		게임<input type="checkbox" name="hobby" value="게임"> 
+		<br>
+		좋아하는 색 :
+		<select name = "color">
+		<option>빨간색</option>
+		<option>노란색</option>
+		<option>파란색</option>
+		</select>
+		<br>
+		좋아하는 음식 :
+		<br> 
+		<select name= "food" size=4 multiple="multiple">
+		<option>라면</option>
+		<option>냉면</option>
+		<option>짜장면</option>
+		<option>햄버거</option>
+		<option>김밥</option>
+		<option>떡볶이</option>
+		</select>
+		<br>
+		의견:
+		<br>
+		<textarea cols="30" rows="7" name="opinion"></textarea>
+		<br>
+		<input type="submit" value = "보내기">
+		<input type="reset" value = "다시작성하기">
+	</form>
+</body>
+</html>

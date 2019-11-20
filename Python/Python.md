@@ -657,3 +657,20 @@ article1.comment_set.all()[1].user.article_set.all()[0].comment_set.all()
 
 
 
+### M-N relationship
+
+kakaodeveloper 
+
+일반 플랫폼추가 웹  http://127.0.0.1:8000 https://127.0.0.8000
+
+사용자 관리 on 프로필정보 수집 목적 작성 / 로그인 Redirect URL http://127.0.0.1:8000/accounts/kakao/login/callback/ 추가
+
+
+
+admin
+
+   소셜어플리케이션 클라이언트아이디:REST API 키 
+
+키: 고급 상태on 코드
+
+stites : example.com
