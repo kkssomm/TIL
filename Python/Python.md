@@ -133,7 +133,7 @@ def index():
 
 - ngrok  
 
-  **Secure tunnels to localhost** :방화벽을 넘어 외부에서 로컬에 접속 가능하게 하는 터널 프로그램 
+  **Secure tunnels to localhost** : 로컬 서버에서 webhook을 호출하는 데 사용할 수있는 웹 터널링 도구 
 
   - ngrok (설치).[ https://dashboard.ngrok.com/get-started ]
 
@@ -152,6 +152,8 @@ def index():
     ``` bash
     $ ./ngrok http 5000
     ```
+
+ **ngrok을 사용하는 동안 별도의 터미널에서 manage.py가 실행 중이어야합니다 (python manage.py runserver 사용) 그렇지 않으면 webhook이 오류를 발생시킵니다.** 
 
 
 
