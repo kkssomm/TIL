@@ -675,4 +675,60 @@ admin
 
 키: 고급 상태on 코드
 
-stites : example.com
+stites : example.com67 
+
+
+
+### 배포
+
+- 환경변수
+
+```bash
+pip install python-decouple
+pip install django-heroku
+```
+
+```python
+from decouple import config
+import django import heroku
+```
+
+```PYTHON
+SECRET_KEY = config('SECRET_KEY')
+```
+
+- Procfile
+
+  ```bash
+  pip install gunicorn
+  ```
+
+  ```
+  web: gunicorn ourkitchen.wsgi 
+  ```
+
+- runtime.txt
+
+```python
+$ python -V
+```
+
+```python
+python-3.7.4
+```
+
+- heroku
+
+ https://devcenter.heroku.com/articles/heroku-cli 
+
+```
+heroku login
+
+heroku create
+
+git remote -v 로 경로 확인
+```
+
+Heroku >> Dashboard >> 배포할 앱 >> settings >> Config Vars >> SECRET_KEY, DEBUG 추가
+
+heroku create app_name --buildpack heroku/python
